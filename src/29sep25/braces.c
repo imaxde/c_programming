@@ -20,4 +20,5 @@ int main(void)
     scanf("%s", string);
     int correct = check_str(string);
     printf("%d\n", correct);
+    return 0;
 }
