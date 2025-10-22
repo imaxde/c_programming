@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 
 int checkStr(char* string)
 {
@@ -13,8 +14,11 @@ int checkStr(char* string)
             balance -= 1;
         if (balance < 0)
             return 0;
-    }
-    return balance == 0;
+    };
+    if (balance == 0)
+        return true;
+    else
+        return false;
 }
 
 int main(void)
@@ -38,8 +42,8 @@ int main(void)
     }
     string[size] = '\0';
     
-    int correct = checkStr(string);
-    printf("%d\n", correct);
+    bool correct = checkStr(string);
+    printf("%s\n", correct ? "true" : "false");
 
     return 0;
 }
