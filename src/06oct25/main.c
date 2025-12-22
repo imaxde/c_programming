@@ -3,20 +3,21 @@
 
 int main(void)
 {
-    int number;
-    int data[100];
-    int original_data[100];
+    int number = 0;
+    int data[100] = { 0 };
+    int originalData[100] = { 0 };
     int index = 0;
     
     printf("введите числа (для завершения нажмите enter+ctrl+d):\n");
 
     while (scanf("%d", &number) == 1) {
         data[index] = number;
-        original_data[index] = number;  // сохраняем копию исходного массива
+        // сохраняем копию исходного массива
+        originalData[index] = number;
         index++;
     };
 
-    merge_sort(data, index);
+    mergeSort(data, index);
     printf("отсортированные числа:\n");
 
     for (int i = 0; i < index; i++)
@@ -24,12 +25,12 @@ int main(void)
     printf("\n");
 
     // подсчитываем различия
-    int moved_count = 0;
+    int movedCount = 0;
     for (int i = 0; i < index; i++) {
-        if (data[i] != original_data[i]) {
-            moved_count++;
+        if (data[i] != originalData[i]) {
+            movedCount++;
         }
     }
 
-    return moved_count;
+    return movedCount;
 }
