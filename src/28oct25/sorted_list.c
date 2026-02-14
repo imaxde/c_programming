@@ -63,17 +63,32 @@ void sortedListRemove(SortedList* list, int value)
     free(current);
 }
 
-void sortedListPrint(SortedList* list)
+int* sortedListToArray(SortedList* list, int* outSize)
 {
+    // Считаем количество элементов
+    int size = 0;
     SortedListNode* current = list->head;
-    printf("[");
     while (current) {
-        printf("%d", current->value);
-        if (current->next)
-            printf(", ");
+        size++;
         current = current->next;
     }
-    printf("]\n");
+
+    // Выделяем память под массив
+    int* array = (int*)malloc(size * sizeof(int));
+    if (!array) {
+        *outSize = 0;
+        return NULL;
+    }
+
+    // Копируем значения
+    current = list->head;
+    for (int i = 0; i < size; i++) {
+        array[i] = current->value;
+        current = current->next;
+    }
+
+    *outSize = size;
+    return array;
 }
 
 void sortedListDelete(SortedList* list)
