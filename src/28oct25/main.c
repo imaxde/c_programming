@@ -1,5 +1,26 @@
 #include "sorted_list.h"
 #include <stdio.h>
+#include <stdlib.h>
+
+static void printList(SortedList* list)
+{
+    int size;
+    int* array = sortedListToArray(list, &size);
+    if (!array) {
+        printf("[]\n");
+        return;
+    }
+
+    printf("[");
+    for (int i = 0; i < size; i++) {
+        printf("%d", array[i]);
+        if (i < size - 1)
+            printf(", ");
+    }
+    printf("]\n");
+
+    free(array);
+}
 
 int main(void)
 {
@@ -31,7 +52,7 @@ int main(void)
             sortedListRemove(list, value);
             break;
         case 3:
-            sortedListPrint(list);
+            printList(list);
             break;
         case 0:
             break;
