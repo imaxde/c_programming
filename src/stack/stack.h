@@ -15,4 +15,4 @@ void pop(struct Stack* stack, int* value);
 int peek(struct Stack* stack);
 
 // Удаляет весь стек
-void delete(struct Stack* stack);
+void deleteStack(struct Stack* stack);
