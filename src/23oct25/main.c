@@ -3,16 +3,15 @@
 #include <stdlib.h>
 #include "../stack/stack.h"
 
-bool isBalanced(const char* str) {
-    if (str == NULL) {
+bool isBalanced(char* str) 
+{
+    if (!str)
         return false;
-    }
 
     struct Stack* stack = newStack();
-    if (stack == NULL) {
+    if (stack == NULL) 
         return false;
-    }
-
+    
     bool balanced = true;
 
     for (int i = 0; str[i] != '\0'; i++) {
@@ -35,21 +34,20 @@ bool isBalanced(const char* str) {
         }
     }
 
-    if (balanced && peek(stack) != -1) {
+    if (balanced && peek(stack) != -1)
         balanced = false;
-    }
 
     int value = 0;
-    while (peek(stack) != -1) {
+    while (peek(stack) != -1)
         pop(stack, &value);
-    }
-    free(stack);
-
+    
+    deleteStack(stack);
     return balanced;
 }
 
-int main(void) {
-    const char* tests[] = {"()", "[]", "{}", "({})", "({)}", "((()))", "([{}])", "}{", "(", ")", ""};
+int main(void) 
+{
+    char* tests[] = {"()", "[]", "{}", "({})", "({)}", "((()))", "([{}])", "}{", "(", ")", ""};
     int numTests = sizeof(tests) / sizeof(tests[0]);
 
     for (int i = 0; i < numTests; i++) {
