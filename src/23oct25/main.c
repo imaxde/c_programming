@@ -4,21 +4,29 @@
 #include "../stack/stack.h"
 
 bool isBalanced(const char* str) {
-    struct Stack* stack = new();
+    if (str == NULL) {
+        return false;
+    }
+
+    struct Stack* stack = newStack();
+    if (stack == NULL) {
+        return false;
+    }
+
     bool balanced = true;
 
     for (int i = 0; str[i] != '\0'; i++) {
         char ch = str[i];
         if (ch == '(' || ch == '[' || ch == '{') {
-            stack = push(stack, ch);
+            push(stack, ch);
         } else if (ch == ')' || ch == ']' || ch == '}') {
-            if (stack == NULL) {
+            int top = peek(stack);
+            if (top == -1) {
                 balanced = false;
                 break;
             }
 
-            int top;
-            stack = pop(stack, &top);
+            pop(stack, &top);
 
             if ((ch == ')' && top != '(') || (ch == ']' && top != '[') || (ch == '}' && top != '{')) {
                 balanced = false;
@@ -26,12 +34,17 @@ bool isBalanced(const char* str) {
             }
         }
     }
-    
-    if (stack != NULL) {
+
+    if (balanced && peek(stack) != -1) {
         balanced = false;
-        delete(stack);
     }
-    
+
+    int value = 0;
+    while (peek(stack) != -1) {
+        pop(stack, &value);
+    }
+    free(stack);
+
     return balanced;
 }
 
@@ -40,7 +53,7 @@ int main(void) {
     int numTests = sizeof(tests) / sizeof(tests[0]);
 
     for (int i = 0; i < numTests; i++) {
-        printf("String: \"%s\" is %s\n", tests[i], isBalanced(tests[i]) ? "сбалансирована" : "не сбалансирована");
+        printf("Строка \"%s\" %s\n", tests[i], isBalanced(tests[i]) ? "сбалансирована" : "не сбалансирована");
     }
 
     return 0;
