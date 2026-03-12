@@ -1,12 +1,7 @@
 #pragma once
-
 #include <stdbool.h>
 
-typedef struct SortedListNode SortedListNode;
-
-typedef struct {
-    SortedListNode* head;
-} SortedList;
+typedef struct SortedList SortedList;
 
 // Создает новый отсортированный список
 SortedList* sortedListNew(void);
