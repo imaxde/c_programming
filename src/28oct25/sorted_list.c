@@ -2,9 +2,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-struct SortedListNode {
+typedef struct SortedListNode {
     int value;
-    SortedListNode* next;
+    struct SortedListNode* next;
+} SortedListNode;
+
+struct SortedList {
+    SortedListNode* head;
 };
 
 static SortedListNode* createNode(int value)
