@@ -1,18 +1,18 @@
 #pragma once 
 
-struct Stack;
+typedef struct Stack Stack;
 
-// Создает новый стек с NULL
-struct Stack* new(void);
+// Создает новый стек с NULL внутри
+Stack* newStack(void);
 
-// Кладет элемент на стек и возвращает измененный стек
-struct Stack* push(struct Stack* stack, int value);
+// Кладет элемент на стек и возвращает измененный стек. В случае нехватки памяти ничего не делает
+void push(Stack* stack, int value);
 
-// Берет элемент со стек, возвращает измененный стек, сохраняет удаленное значение в аргумент value
-struct Stack* pop(struct Stack* stack, int* value);
+// Берет элемент со стека, если получится, сохраняет удаленное значение в аргумент value
+void pop(Stack* stack, int* value);
 
-// Возвращает верхний элемент стека
-int peek(struct Stack* stack);
+// Возвращает успех ли, в value верхний элемент stack
+bool peek(Stack* stack, int* value);
 
 // Удаляет весь стек
-void delete(struct Stack* stack);
+void deleteStack(Stack* stack);

@@ -1,53 +1,71 @@
 #include <stdlib.h>
+#include <stdbool.h>
 #include "stack.h"
 
-struct Stack {
+struct StackElement {
     int value;
-    struct Stack* next;
+    struct StackElement* next;
 };
 
-struct Stack* push(struct Stack* stack, int value)
+struct Stack {
+    struct StackElement* headElement;
+};
+
+void push(struct Stack* stack, int value)
 {
-    struct Stack* newStack = malloc(sizeof(struct Stack));
+    struct StackElement* newHead = calloc(1, sizeof(struct StackElement));
 
-    if (!newStack)
-        return NULL;
-
-    newStack->value = value;
-    newStack->next = stack;
-    return newStack;
+    if (newHead == NULL)
+        return;
+    
+    newHead->next = stack->headElement;
+    newHead->value = value;
+    stack->headElement = newHead;
 }
 
-struct Stack* pop(struct Stack* stack, int* value) 
+void pop(struct Stack* stack, int* value) 
 {
+    struct StackElement* element = stack->headElement;
+
+    if (element == NULL) 
+        return;
+
+    struct StackElement* temp = element->next;
+    *value = element->value;
+    free(element);
+    stack->headElement = temp;
+}
+
+bool peek(struct Stack* stack, int* value) 
+{
+    if (stack->headElement == NULL)
+        return false;
+
+    *value = stack->headElement->value;
+    return true;
+}
+
+struct Stack* newStack(void) 
+{
+    struct Stack* stack = calloc(1, sizeof(struct Stack));
+
     if (stack == NULL)
         return NULL;
 
-    struct Stack* temp = stack->next;
-    *value = stack->value;
-    free(stack);
-    return temp;
+    stack->headElement = NULL;
+    return stack;
 }
 
-int peek(struct Stack* stack) 
+void deleteStack(struct Stack* stack) 
 {
-    if (stack == NULL)
-        return -1;
+    struct StackElement* element = stack->headElement;
 
-    return stack->value;
-}
-
-struct Stack* new(void) 
-{
-    return NULL;
-}
-
-void delete(struct Stack* stack) 
-{
-    while (stack != NULL) {
-        struct Stack* temp = stack;
-        stack = stack->next;
+    while (element != NULL) {
+        struct StackElement* temp = element;
+        element = element->next;
         free(temp);
     }
+
+    free(stack);
 }
 
