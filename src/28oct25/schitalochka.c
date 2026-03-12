@@ -4,7 +4,8 @@
 
 int main(void)
 {
-    int n, m;
+    int n = 0;
+    int m = 0;
     scanf("%d %d", &n, &m);
     LoopList* list = loopListNew();
 
