@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <stdbool.h>
 #include "stack.h"
 
 struct StackElement {
@@ -35,12 +36,13 @@ void pop(struct Stack* stack, int* value)
     stack->headElement = temp;
 }
 
-int peek(struct Stack* stack) 
+bool peek(struct Stack* stack, int* value) 
 {
     if (stack->headElement == NULL)
-        return -1;
+        return false;
 
-    return stack->headElement->value;
+    *value = stack->headElement->value;
+    return true;
 }
 
 struct Stack* newStack(void) 
