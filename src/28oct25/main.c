@@ -1,13 +1,14 @@
 #include "sorted_list.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include <string.h>
 
-static int testInsertOrdered(void)
+bool testInsertOrdered(void)
 {
     SortedList* list = sortedListNew();
     if (!list)
-        return 0;
+        return false;
 
     sortedListInsert(list, 3);
     sortedListInsert(list, 1);
@@ -15,18 +16,18 @@ static int testInsertOrdered(void)
     sortedListInsert(list, 5);
     sortedListInsert(list, 4);
 
-    int size;
+    int size = 0;
     int* array = sortedListToArray(list, &size);
     if (!array || size != 5) {
         sortedListDelete(list);
-        return 0;
+        return false;
     }
 
-    int result = 1;
+    bool result = true;
     int expected[] = {1, 2, 3, 4, 5};
     for (int i = 0; i < size; i++) {
         if (array[i] != expected[i]) {
-            result = 0;
+            result = false;
             break;
         }
     }
@@ -36,11 +37,11 @@ static int testInsertOrdered(void)
     return result;
 }
 
-static int testRemoveElement(void)
+bool testRemoveElement(void)
 {
     SortedList* list = sortedListNew();
     if (!list)
-        return 0;
+        return false;
 
     sortedListInsert(list, 3);
     sortedListInsert(list, 1);
@@ -48,90 +49,90 @@ static int testRemoveElement(void)
 
     sortedListRemove(list, 2);
 
-    int size;
+    int size = 0;
     int* array = sortedListToArray(list, &size);
     if (!array || size != 2) {
         sortedListDelete(list);
-        return 0;
+        return false;
     }
 
-    int result = 1;
+    bool result = true;
     if (array[0] != 1 || array[1] != 3)
-        result = 0;
+        result = false;
 
     free(array);
     sortedListDelete(list);
     return result;
 }
 
-static int testEmptyList(void)
+bool testEmptyList(void)
 {
     SortedList* list = sortedListNew();
     if (!list)
-        return 0;
+        return false;
 
-    int size;
+    int size = 0;
     int* array = sortedListToArray(list, &size);
     if (array) {
         free(array);
         sortedListDelete(list);
-        return 0;
+        return false;
     }
 
     if (size != 0) {
         sortedListDelete(list);
-        return 0;
+        return false;
     }
 
     sortedListDelete(list);
-    return 1;
+    return true;
 }
 
-static int testSingleElement(void)
+bool testSingleElement(void)
 {
     SortedList* list = sortedListNew();
     if (!list)
-        return 0;
+        return false;
 
     sortedListInsert(list, 42);
 
-    int size;
+    int size = 0;
     int* array = sortedListToArray(list, &size);
     if (!array || size != 1) {
         sortedListDelete(list);
-        return 0;
+        return false;
     }
 
-    int result = (array[0] == 42);
+    bool result = (array[0] == 42);
 
     free(array);
     sortedListDelete(list);
     return result;
 }
 
-static int testDuplicates(void)
+bool testDuplicates(void)
 {
     SortedList* list = sortedListNew();
     if (!list)
-        return 0;
+        return false;
 
     sortedListInsert(list, 2);
     sortedListInsert(list, 2);
     sortedListInsert(list, 1);
     sortedListInsert(list, 2);
 
-    int size;
+    int size = 0;
     int* array = sortedListToArray(list, &size);
     if (!array || size != 4) {
         sortedListDelete(list);
-        return 0;
+        return false;
     }
 
-    int result = 1;
+    bool result = true;
     int expected[] = {1, 2, 2, 2};
     for (int i = 0; i < size; i++) {
         if (array[i] != expected[i]) {
-            result = 0;
+            result = false;
             break;
         }
     }
@@ -141,35 +142,35 @@ static int testDuplicates(void)
     return result;
 }
 
-static int testRemoveNonExistent(void)
+bool testRemoveNonExistent(void)
 {
     SortedList* list = sortedListNew();
     if (!list)
-        return 0;
+        return false;
 
     sortedListInsert(list, 1);
     sortedListInsert(list, 3);
 
-    int sizeBefore;
+    int sizeBefore = 0;
     int* arrayBefore = sortedListToArray(list, &sizeBefore);
     if (!arrayBefore || sizeBefore != 2) {
         sortedListDelete(list);
-        return 0;
+        return false;
     }
 
     sortedListRemove(list, 999);
 
-    int sizeAfter;
+    int sizeAfter = 0;
     int* arrayAfter = sortedListToArray(list, &sizeAfter);
     if (!arrayAfter || sizeAfter != 2) {
         free(arrayBefore);
         sortedListDelete(list);
-        return 0;
+        return false;
     }
 
-    int result = 1;
+    bool result = true;
     if (arrayBefore[0] != arrayAfter[0] || arrayBefore[1] != arrayAfter[1])
-        result = 0;
+        result = false;
 
     free(arrayBefore);
     free(arrayAfter);
@@ -177,11 +178,11 @@ static int testRemoveNonExistent(void)
     return result;
 }
 
-static int testRemoveHead(void)
+bool testRemoveHead(void)
 {
     SortedList* list = sortedListNew();
     if (!list)
-        return 0;
+        return false;
 
     sortedListInsert(list, 1);
     sortedListInsert(list, 2);
@@ -189,43 +190,43 @@ static int testRemoveHead(void)
 
     sortedListRemove(list, 1);
 
-    int size;
+    int size = 0;
     int* array = sortedListToArray(list, &size);
     if (!array || size != 2) {
         sortedListDelete(list);
-        return 0;
+        return false;
     }
 
-    int result = (array[0] == 2 && array[1] == 3);
+    bool result = (array[0] == 2 && array[1] == 3);
 
     free(array);
     sortedListDelete(list);
     return result;
 }
 
-static int testNegativeNumbers(void)
+bool testNegativeNumbers(void)
 {
     SortedList* list = sortedListNew();
     if (!list)
-        return 0;
+        return false;
 
     sortedListInsert(list, -5);
     sortedListInsert(list, 0);
     sortedListInsert(list, -10);
     sortedListInsert(list, 5);
 
-    int size;
+    int size = 0;
     int* array = sortedListToArray(list, &size);
     if (!array || size != 4) {
         sortedListDelete(list);
-        return 0;
+        return false;
     }
 
-    int result = 1;
+    bool result = true;
     int expected[] = {-10, -5, 0, 5};
     for (int i = 0; i < size; i++) {
         if (array[i] != expected[i]) {
-            result = 0;
+            result = false;
             break;
         }
     }
@@ -237,7 +238,7 @@ static int testNegativeNumbers(void)
 
 static void printList(SortedList* list)
 {
-    int size;
+    int size = 0;
     int* array = sortedListToArray(list, &size);
     if (!array) {
         printf("[]\n");
@@ -272,7 +273,7 @@ int main(int argc, char** argv)
 
     SortedList* list = sortedListNew();
     int choice = -1;
-    int value;
+    int value = 0;
 
     printf("0 – выйти\n");
     printf("1 – добавить значение в сортированный список\n");
