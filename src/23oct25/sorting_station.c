@@ -146,19 +146,15 @@ bool infixToPostfix(char* infix, char* postfix, size_t postfixCapacity)
 
 int main(void)
 {
-    char* infix = NULL;
+    size_t infixCapacity = 16;
+    char* infix = calloc(infixCapacity, sizeof(char));
     char* postfix = NULL;
-    size_t infixCapacity = 0;
     size_t infixLength = 0;
     int ch = 0;
 
     while ((ch = getchar()) != '\n' && ch != EOF) {
         if (infixLength + 1 >= infixCapacity) {
-            if (infixCapacity == 0) {
-                infixCapacity = 16;
-            } else {
-                infixCapacity *= 2;
-            }
+            infixCapacity *= 2;
 
             char* temp = realloc(infix, infixCapacity * sizeof(char));
             if (temp == NULL) {
@@ -170,14 +166,7 @@ int main(void)
         infix[infixLength++] = (char)ch;
     }
 
-    if (infix != NULL) {
-        infix[infixLength] = '\0';
-    } else {
-        infix = calloc(1, sizeof(char));
-        if (infix == NULL) {
-            return 1;
-        }
-    }
+    infix[infixLength] = '\0';
 
     size_t postfixCapacity = infixLength * 2 + 1;
     postfix = calloc(postfixCapacity, sizeof(char));
