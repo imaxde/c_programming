@@ -69,7 +69,6 @@ void sortedListRemove(SortedList* list, int value)
 
 int* sortedListToArray(SortedList* list, int* outSize)
 {
-    // Считаем количество элементов
     int size = 0;
     SortedListNode* current = list->head;
     while (current) {
@@ -77,14 +76,17 @@ int* sortedListToArray(SortedList* list, int* outSize)
         current = current->next;
     }
 
-    // Выделяем память под массив
+    if (size == 0) {
+        *outSize = 0;
+        return NULL;
+    }
+
     int* array = (int*)malloc(size * sizeof(int));
     if (!array) {
         *outSize = 0;
         return NULL;
     }
 
-    // Копируем значения
     current = list->head;
     for (int i = 0; i < size; i++) {
         array[i] = current->value;
