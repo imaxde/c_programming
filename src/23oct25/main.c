@@ -8,7 +8,7 @@ bool isBalanced(char* str)
     if (!str)
         return false;
 
-    struct Stack* stack = newStack();
+    Stack* stack = newStack();
     if (stack == NULL) 
         return false;
     
@@ -19,8 +19,8 @@ bool isBalanced(char* str)
         if (ch == '(' || ch == '[' || ch == '{') {
             push(stack, ch);
         } else if (ch == ')' || ch == ']' || ch == '}') {
-            int top = peek(stack);
-            if (top == -1) {
+            int top = 0;
+            if (!peek(stack, &top)) {
                 balanced = false;
                 break;
             }
@@ -34,11 +34,11 @@ bool isBalanced(char* str)
         }
     }
 
-    if (balanced && peek(stack) != -1)
+    int value = 0;
+    if (balanced && peek(stack, &value))
         balanced = false;
 
-    int value = 0;
-    while (peek(stack) != -1)
+    while (peek(stack, &value))
         pop(stack, &value);
     
     deleteStack(stack);
