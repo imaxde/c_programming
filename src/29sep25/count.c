@@ -5,7 +5,7 @@ int count(char *str, char *str1)
 {
     int size = strlen(str);
     int size1 = strlen(str1);
-    int number_of_substrings = 0;
+    int numberOfSubstrings = 0;
 
     if (size == 0 || size1 == 0)
         return 0;
@@ -22,10 +22,10 @@ int count(char *str, char *str1)
         
         /* если все элементы подстроки есть, то добавляем одно вхождение */
         if (coincidences == size1)
-            number_of_substrings += 1;
+            numberOfSubstrings += 1;
     }
 
-    return number_of_substrings;
+    return numberOfSubstrings;
 }
 
 int main()
