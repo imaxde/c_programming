@@ -1,25 +1,23 @@
 #include "bin_numbers.h"
 #include <stdio.h>
+#include <stdint.h>
 
 int main(void)
 {
-    int a = 0;
-    int b = 0;
+    int32_t a = 0;
+    int32_t b = 0;
     scanf("%d %d", &a, &b);
 
-    if (a < -128 || b < -129 || a > 128 || b > 128)
-        return 1;
+    struct BinNumber c = toBinary(a);
+    struct BinNumber d = toBinary(b);
 
-    unsigned char c = to_binary(a);
-    unsigned char d = to_binary(b);
+    printBinary(c);
+    printBinary(d);
 
-    print_binary(c);
-    print_binary(d);
+    struct BinNumber e = plus(c, d);
 
-    unsigned char e = plus(c, d);
+    printBinary(e);
 
-    print_binary(e);
-
-    printf("%d\n", to_decimal(e));
+    printf("%d\n", toDecimal(e));
     return 0;
 }
