@@ -1,7 +1,7 @@
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
 
-int quotient(int a, int b) 
+int quotient(int a, int b)
 {
     if (b == 0)
         return 0;

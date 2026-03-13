@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-void reverse(int arr[], int left, int right) 
+void reverse(int arr[], int left, int right)
 {
     /* left, right - Индексы правого и левого элементов, которые меняются местами */
     while (left < right) {
@@ -16,7 +16,7 @@ int main(void)
 {
     const int m = 3;
     const int n = 4;
-    int numbers[7] = {1, 2, 3, 4, 5, 6, 7};
+    int numbers[7] = { 1, 2, 3, 4, 5, 6, 7 };
 
     /* Вывод первоначального массива циклом*/
     for (int i = 0; i < n + m; i++)
@@ -37,4 +37,3 @@ int main(void)
 
     return 0;
 }
-
