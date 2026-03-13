@@ -1,0 +1,5 @@
+cmake_minimum_required(VERSION 3.25)
+project(mergesort C)
+add_library(MergeSort merge_sort.c)
+add_executable(main main.c)
+target_link_libraries(main PRIVATE MergeSort)
