@@ -2,9 +2,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-struct SortedListNode {
+typedef struct SortedListNode {
     int value;
-    SortedListNode* next;
+    struct SortedListNode* next;
+} SortedListNode;
+
+struct SortedList {
+    SortedListNode* head;
 };
 
 static SortedListNode* createNode(int value)
@@ -63,17 +67,34 @@ void sortedListRemove(SortedList* list, int value)
     free(current);
 }
 
-void sortedListPrint(SortedList* list)
+int* sortedListToArray(SortedList* list, int* outSize)
 {
+    int size = 0;
     SortedListNode* current = list->head;
-    printf("[");
     while (current) {
-        printf("%d", current->value);
-        if (current->next)
-            printf(", ");
+        size++;
         current = current->next;
     }
-    printf("]\n");
+
+    if (size == 0) {
+        *outSize = 0;
+        return NULL;
+    }
+
+    int* array = (int*)malloc(size * sizeof(int));
+    if (!array) {
+        *outSize = 0;
+        return NULL;
+    }
+
+    current = list->head;
+    for (int i = 0; i < size; i++) {
+        array[i] = current->value;
+        current = current->next;
+    }
+
+    *outSize = size;
+    return array;
 }
 
 void sortedListDelete(SortedList* list)
