@@ -1,41 +1,60 @@
 #include <stdio.h>
+#include <stdbool.h>
+#include <stdint.h>
+#include <stdlib.h>
 #include "bin_numbers.h"
 
-unsigned char plus(unsigned char n1, unsigned char n2) 
+struct BinNumber plus(struct BinNumber n1, struct BinNumber n2) 
 {
-    unsigned char result = 0;
-    unsigned char carry = 0;
+    struct BinNumber result = {0};
+    bool carry = false;
 
-    for (int i = 0; i < 8; i++) {
-        unsigned char b1 = (n1 >> i) & 1;
-        unsigned char b2 = (n2 >> i) & 1;
+    for (int i = 31; i >= 0; i--) {
+        int sum = n1.bits[i] + n2.bits[i] + carry;
 
-        unsigned char sum = b1 ^ b2 ^ carry;
-        carry = (b1 & b2) | (b1 & carry) | (b2 & carry);
-
-        result |= (sum << i);
+        result.bits[i] = sum % 2;
+        carry = sum / 2;
     }
 
     return result;
 }
 
-unsigned char to_binary(int decimal_number) 
+struct BinNumber toBinary(int32_t decimalNumber) 
 {
-    return (unsigned char)decimal_number;
+    struct BinNumber new = {0};
+
+    for (int i = 0; i < 32; i++) {
+        if (decimalNumber & (1u << i))
+            new.bits[31 - i] = true;
+    }
+    
+    return new;
 }
 
-int to_decimal(unsigned char binary_number) 
+int32_t toDecimal(struct BinNumber binaryNumber) 
 {
-    if ((binary_number & 10000000) == 0)
-        return binary_number;
+    int32_t result = 0;
 
-    return (int)binary_number - 256;
+    for (int i = 0; i < 32; i++) {
+        if (binaryNumber.bits[i]) {
+            result |= (1u << (31 - i));
+        }
+    }
+
+    return result;
 }
 
-void print_binary(unsigned char binary_number) 
+void printBinary(struct BinNumber binaryNumber) 
 {
-    for (int i = 7; i >= 0; i--) 
-        printf("%d", (binary_number >> i) & 1);
+    bool leadingZero = true;
+
+    for (int i = 0; i < 32; i++) {
+        if (leadingZero && binaryNumber.bits[i])
+            leadingZero = false;
+
+        if (!leadingZero)
+            printf("%d", (int)(binaryNumber.bits[i]));
+    }
         
     printf("\n");
 }
