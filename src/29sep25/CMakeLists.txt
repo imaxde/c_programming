@@ -1,0 +1,8 @@
+cmake_minimum_required(VERSION 3.25)
+project(compilation C)
+add_executable(braces braces.c)
+add_executable(count count.c)
+add_executable(zero_elements zero_elements.c)
+target_compile_options(braces PRIVATE -Wall -Wextra)
+target_compile_options(count PRIVATE -Wall -Wextra)
+target_compile_options(zero_elements PRIVATE -Wall -Wextra)
