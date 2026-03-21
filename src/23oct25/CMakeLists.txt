@@ -1,0 +1,6 @@
+cmake_minimum_required(VERSION 3.25)
+project(braces_balance C)
+add_library(stack ../stack/stack.c)
+add_executable(main main.c)
+target_link_libraries(main PRIVATE stack)
+target_compile_options(main PRIVATE -Wall -Wextra)
